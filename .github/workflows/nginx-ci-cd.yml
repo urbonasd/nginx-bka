@@ -20,7 +20,6 @@ jobs:
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-      IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/my-nginx-app
     outputs:
       DOCKER_TAG: ${{ steps.docker_tag_step.outputs.DOCKER_TAG }}
     steps:
