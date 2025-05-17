@@ -20,7 +20,6 @@ jobs:
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-      IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/my-nginx-app
     outputs:
       DOCKER_TAG: ${{ steps.docker_tag_step.outputs.DOCKER_TAG }}
     steps:
@@ -128,9 +127,9 @@ jobs:
         run: |
           IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/my-nginx-app"
           DOCKER_TAG=$(curl -s "https://hub.docker.com/v2/repositories/${IMAGE_NAME}/tags?page_size=20" | \
-          jq -r 'if .results then [.results[] | select(.name | test("^v[0-9]+$"))] | sort_by(.last_updated) | reverse | .[0].name else "v1" end')
+          jq -r '[.results[] | select(.name | test("^v[0-9]+$"))] | sort_by(.last_updated) | reverse | .[0].name')
           echo "DOCKER_TAG=$DOCKER_TAG" >> $GITHUB_ENV
-          echo "✅ Using Docker tag: $DOCKER_TAG"
+          echo "✅ Using latest Docker tag: $DOCKER_TAG"
 
       - name: Pull and Run Latest Staging Image
         run: |
@@ -158,9 +157,9 @@ jobs:
         run: |
           IMAGE_NAME="${{ secrets.DOCKERHUB_USERNAME }}/my-nginx-app"
           DOCKER_TAG=$(curl -s "https://hub.docker.com/v2/repositories/${IMAGE_NAME}/tags?page_size=20" | \
-          jq -r 'if .results then [.results[] | select(.name | test("^v[0-9]+$"))] | sort_by(.last_updated) | reverse | .[0].name else "v1" end')
+          jq -r '[.results[] | select(.name | test("^v[0-9]+$"))] | sort_by(.last_updated) | reverse | .[0].name')
           echo "DOCKER_TAG=$DOCKER_TAG" >> $GITHUB_ENV
-          echo "✅ Using Docker tag: $DOCKER_TAG"
+          echo "✅ Using latest Docker tag: $DOCKER_TAG"
 
       - name: Pull and Run Latest Production Image
         run: |
