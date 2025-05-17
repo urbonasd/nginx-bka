@@ -33,7 +33,7 @@ jobs:
 
       - name: Define Docker Image Name
         run: |
-          IMAGE_NAME="durbona/my-nginx-app"
+          IMAGE_NAME="$DOCKER_USERNAME/my-nginx-app"
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
           echo "✅ IMAGE_NAME set to: $IMAGE_NAME"
       - name: Ensure Directory Exists for Docker Version
