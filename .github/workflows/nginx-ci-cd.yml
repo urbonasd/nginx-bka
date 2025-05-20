@@ -10,6 +10,10 @@ on:
     branches:
       - main
     types: [opened, reopened, ready_for_review]
+  workflow_run:
+    workflows: ["Git Lint"]
+    types:
+      - completed
 
 jobs:
   build-development:
