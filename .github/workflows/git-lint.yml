@@ -32,5 +32,5 @@ jobs:
           if [ -z "$COMMITS" ]; then
             echo "No commits to lint"
           else
-            echo "$COMMITS" | npx commitlint --stdin
+            echo "$COMMITS" | npx commitlint
           fi
