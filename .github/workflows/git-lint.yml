@@ -23,4 +23,14 @@ jobs:
 
       - name: Validate commit messages
         run: |
-          git log origin/${{ github.event.pull_request.base.ref || github.ref_name }}..HEAD --pretty=format:%s | npx commitlint
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            RANGE="origin/${{ github.event.pull_request.base.ref }}..HEAD"
+          else
+            RANGE="${{ github.event.before }}..HEAD"
+          fi
+          COMMITS=$(git log $RANGE --pretty=format:%s)
+          if [ -z "$COMMITS" ]; then
+            echo "No commits to lint"
+          else
+            echo "$COMMITS" | npx commitlint --stdin
+          fi
